@@ -70,5 +70,8 @@
 
 #include <wheels/meta/is_deduced.h++>
 
+#include <wheels/meta/class_of.h++>
+#include <wheels/meta/member_of.h++>
+
 #endif // WHEELS_META_HPP
 
