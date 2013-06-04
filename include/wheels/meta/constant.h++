@@ -20,11 +20,7 @@ namespace wheels {
     namespace meta {
         // Integral meta-constant
         template <typename T, T I>
-        struct constant : std::integral_constant<T, I> {
-            // *Returns*: `I`.
-            // *Remarks*: allows `constant<int, 5>()()` to force evaluation.
-            constexpr T operator()() const { return I; }
-        };
+        struct constant : std::integral_constant<T, I> {};
     } // namespace meta
 } // namespace wheels
 
