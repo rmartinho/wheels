@@ -31,12 +31,12 @@ namespace wheels {
         // *Effects*: causes a substitution failure if not all of `T...` are true.
         // *Remarks*: intended usage is as `EnableIf<F<T>, G<T>>...` in template parameter lists.
         template <typename... T>
-        using EnableIf = Invoke<std::enable_if<All<T...>::value, enabled>>;
+        using EnableIf = Invoke<std::enable_if<All<T...>::value, detail::enabled>>;
         // Conditional overload disabler
         // *Effects*: causes a substitution failure if all of `T...` are false.
         // *Remarks*: intended usage is as `DisableIf<F<T>, G<T>>...` in template parameter lists.
         template <typename... T>
-        using DisableIf = Invoke<std::enable_if<Any<T...>::value, enabled>>;
+        using DisableIf = Invoke<std::enable_if<Any<T...>::value, detail::enabled>>;
     } // namespace meta
 } // namespace wheels
 
