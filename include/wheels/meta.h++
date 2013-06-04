@@ -62,5 +62,7 @@
 #include <wheels/meta/underlying_type.h++>
 #include <wheels/meta/common_type.h++>
 
+#include <wheels/meta/is_related.h++>
+
 #endif // WHEELS_META_HPP
 
