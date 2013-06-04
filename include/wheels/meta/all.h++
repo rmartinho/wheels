@@ -9,24 +9,24 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with this software.
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>
 
-// Boolean meta-constants
+// Boolean conjunction meta-function
 
-#ifndef WHEELS_META_BOOL_HPP
-#define WHEELS_META_BOOL_HPP
+#ifndef WHEELS_META_ALL_HPP
+#define WHEELS_META_ALL_HPP
 
-#include <wheels/meta/constant.h++>
+#include <wheels/meta/bool.h++>
+#include <wheels/meta/if.h++>
 
 namespace wheels {
     namespace meta {
-        // Boolean meta-constant
-        template <bool B>
-        using Bool = constant<bool, B>;
-        // True meta-constant
-        using True = Bool<true>;
-        // False meta-constant
-        using False = Bool<false>;
+        // Boolean conjunction meta-function
+        // *Returns*: `True` if all `T::value` are `true`; `False` otherwise.
+        template <typename... T>
+        struct All : True {};
+        template <typename H, typename... T>
+        struct All<H, T...> : If<H, All<T...>, False> {};
     } // namespace meta
 } // namespace wheels
 
-#endif // WHEELS_META_BOOL_HPP
+#endif // WHEELS_META_ALL_HPP
 
