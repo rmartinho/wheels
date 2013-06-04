@@ -1,0 +1,13 @@
+# --- configuration ---
+
+projectName = 'wheels'
+
+language = 'c++11'
+ignoredWarnings = [ 'mismatched-tags' ]
+noRebuild = [ '-Wfatal-errors' ]
+
+systemLibs = []
+otherLibs = []
+
+systemHeaderPaths = [ 'deps' ]
+

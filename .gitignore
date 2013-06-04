@@ -1,0 +1,7 @@
+bin/
+obj/
+*~
+*.session.vim
+*.swp
+.vimrc
+*scons*
