@@ -14,7 +14,7 @@
 #ifndef WHEELS_META_QUALIFYING_VALUE_CATEGORY_OF_HPP
 #define WHEELS_META_QUALIFYING_VALUE_CATEGORY_OF_HPP
 
-#include <wheels/meta/identity.h++>
+#include <wheels/meta/id.h++>
 #include <wheels/meta/invoke.h++>
 #include <wheels/meta/if.h++>
 
@@ -27,7 +27,7 @@ namespace wheels {
         struct qualifying_value_category_of
         : If<std::is_lvalue_reference<From>,
                 std::add_lvalue_reference<To>,
-                identity<To>> {};
+                id<To>> {};
         template <typename From, typename To>
         using QualifyingValueCategoryOf = Invoke<qualifying_value_category_of<From, To>>;
     } // namespace meta

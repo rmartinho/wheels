@@ -18,7 +18,7 @@
 #include <wheels/fun/is_invocable.h++>
 
 #include <wheels/meta/invoke.h++>
-#include <wheels/meta/identity.h++>
+#include <wheels/meta/id.h++>
 #include <wheels/meta/bool.h++>
 #include <wheels/meta/depend_on.h++>
 
@@ -31,7 +31,7 @@ namespace wheels {
             struct result_of {};
             template <typename Fun, typename... Args>
             struct result_of<Fun(Args...), true>
-            : meta::identity<decltype((invoke)(std::declval<Fun>(), std::declval<Args>()...))> {};
+            : meta::id<decltype((invoke)(std::declval<Fun>(), std::declval<Args>()...))> {};
         } // namespace detail
 
         // *Returns*: the result of calling `Fun` with the given `Args...`.

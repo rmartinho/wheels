@@ -15,7 +15,7 @@
 #define WHEELS_META_MEMBER_OF_HPP
 
 #include <wheels/meta/invoke.h++>
-#include <wheels/meta/identity.h++>
+#include <wheels/meta/id.h++>
 
 namespace wheels {
     namespace meta {
@@ -23,7 +23,7 @@ namespace wheels {
         template <typename T>
         struct member_of {};
         template <typename Sig, typename Class>
-        struct member_of<Sig Class::*> : identity<Sig> {};
+        struct member_of<Sig Class::*> : id<Sig> {};
         template <typename T>
         using MemberOf = Invoke<member_of<T>>;
     } // namespace meta

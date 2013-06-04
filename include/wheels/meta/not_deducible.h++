@@ -14,14 +14,14 @@
 #ifndef WHEELS_META_NOT_DEDUCIBLE_HPP
 #define WHEELS_META_NOT_DEDUCIBLE_HPP
 
-#include <wheels/meta/identity.h++>
+#include <wheels/meta/id.h++>
 
 namespace wheels {
     namespace meta {
         // *Returns*: `T`.
         // *Remarks*: this alias is not deducible.
         template <typename T>
-        using NotDeducible = Identity<T>;
+        using NotDeducible = Id<T>;
     } // namespace meta
 } // namespace wheels
 

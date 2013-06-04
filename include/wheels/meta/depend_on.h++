@@ -15,14 +15,14 @@
 #define WHEELS_META_DEPEND_ON_HPP
 
 #include <wheels/meta/invoke.h++>
-#include <wheels/meta/identity.h++>
+#include <wheels/meta/id.h++>
 
 namespace wheels {
     namespace meta {
         // Makes dependent types
         // *Effects*: makes `T` depend on the trailing arguments.
         template <typename T, typename... D>
-        struct depend_on : identity<T> {};
+        struct depend_on : id<T> {};
         // Makes dependent types
         // *Effects*: makes `T` depend on the trailing arguments.
         template <typename T, typename... D>

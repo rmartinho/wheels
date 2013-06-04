@@ -14,7 +14,7 @@
 #ifndef WHEELS_META_QUALIFYING_VOLATILE_OF_HPP
 #define WHEELS_META_QUALIFYING_VOLATILE_OF_HPP
 
-#include <wheels/meta/identity.h++>
+#include <wheels/meta/id.h++>
 #include <wheels/meta/invoke.h++>
 #include <wheels/meta/if.h++>
 
@@ -27,7 +27,7 @@ namespace wheels {
         struct qualifying_volatile_of
         : If<std::is_volatile<From>,
                 std::add_volatile<To>,
-                identity<To>> {};
+                id<To>> {};
         template <typename From, typename To>
         using QualifyingVolatileOf = Invoke<qualifying_volatile_of<From, To>>;
     } // namespace meta

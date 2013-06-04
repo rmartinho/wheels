@@ -11,8 +11,8 @@
 
 // Identity metafunction
 
-#ifndef WHEELS_META_IDENTITY_HPP
-#define WHEELS_META_IDENTITY_HPP
+#ifndef WHEELS_META_ID_HPP
+#define WHEELS_META_ID_HPP
 
 #include <wheels/meta/invoke.h++>
 
@@ -20,16 +20,16 @@ namespace wheels {
     namespace meta {
         // *Returns*: `T`.
         template <typename T>
-        struct identity {
+        struct id {
             using type = T;
         };
 
         // *Returns*: `T`.
         // *Remarks*: this alias is not deducible.
         template <typename T>
-        using Identity = Invoke<identity<T>>;
+        using Id = Invoke<id<T>>;
     } // namespace meta
 } // namespace wheels
 
-#endif // WHEELS_META_IDENTITY_HPP
+#endif // WHEELS_META_ID_HPP
 
