@@ -46,6 +46,7 @@
 
 #include <wheels/meta/decay.h++>
 #include <wheels/meta/unqualified.h++>
+#include <wheels/meta/is_unqualified.h++>
 
 #include <wheels/meta/qualifying_value_category_of.h++>
 #include <wheels/meta/qualifying_const_of.h++>
