@@ -25,7 +25,7 @@ namespace wheels {
         template <typename... T>
         struct all : True {};
         template <typename H, typename... T>
-        struct all<H, T...> : If<H, All<T...>, False> {};
+        struct all<H, T...> : If<H, all<T...>, False> {};
         template <typename... T>
         using All = Invoke<all<T...>>;
     } // namespace meta
