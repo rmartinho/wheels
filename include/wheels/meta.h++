@@ -59,5 +59,8 @@
 #include <wheels/meta/remove_extent.h++>
 #include <wheels/meta/remove_all_extents.h++>
 
+#include <wheels/meta/underlying_type.h++>
+#include <wheels/meta/common_type.h++>
+
 #endif // WHEELS_META_HPP
 
