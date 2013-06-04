@@ -9,19 +9,20 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with this software.
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>
 
-// Meta-programming facilities
+// Boolean meta-constants
 
-#ifndef WHEELS_META_HPP
-#define WHEELS_META_HPP
-
-#include <wheels/meta/invoke.h++>
-#include <wheels/meta/identity.h++>
-#include <wheels/meta/alias.h++>
-#include <wheels/meta/not_deducible.h++>
+#ifndef WHEELS_META_BOOL_HPP
+#define WHEELS_META_BOOL_HPP
 
 #include <wheels/meta/constant.h++>
-#include <wheels/meta/int.h++>
-#include <wheels/meta/bool.h++>
 
-#endif // WHEELS_META_HPP
+namespace wheels {
+    namespace meta {
+        // Boolean meta-constant
+        template <bool B>
+        using Bool = constant<bool, B>;
+    } // namespace meta
+} // namespace wheels
+
+#endif // WHEELS_META_BOOL_HPP
 
