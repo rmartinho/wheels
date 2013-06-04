@@ -68,5 +68,7 @@
 
 #include <wheels/meta/is_related.h++>
 
+#include <wheels/meta/is_deduced.h++>
+
 #endif // WHEELS_META_HPP
 
