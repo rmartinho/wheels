@@ -44,5 +44,8 @@
 #include <wheels/meta/add_rvalue_reference.h++>
 #include <wheels/meta/remove_reference.h++>
 
+#include <wheels/meta/decay.h++>
+#include <wheels/meta/unqualified.h++>
+
 #endif // WHEELS_META_HPP
 
