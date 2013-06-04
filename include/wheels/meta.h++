@@ -33,5 +33,12 @@
 
 #include <wheels/meta/depend_on.h++>
 
+#include <wheels/meta/add_const.h++>
+#include <wheels/meta/remove_const.h++>
+#include <wheels/meta/add_volatile.h++>
+#include <wheels/meta/remove_volatile.h++>
+#include <wheels/meta/add_cv.h++>
+#include <wheels/meta/remove_cv.h++>
+
 #endif // WHEELS_META_HPP
 
