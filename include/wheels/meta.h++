@@ -53,5 +53,8 @@
 #include <wheels/meta/qualifying_cv_of.h++>
 #include <wheels/meta/qualifying.h++>
 
+#include <wheels/meta/add_pointer.h++>
+#include <wheels/meta/remove_pointer.h++>
+
 #endif // WHEELS_META_HPP
 
