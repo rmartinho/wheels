@@ -9,22 +9,22 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with this software.
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>
 
-// Meta-programming facilities
+// Lazy if-then-else meta-function
 
-#ifndef WHEELS_META_HPP
-#define WHEELS_META_HPP
+#ifndef WHEELS_META_INVOKE_IF_HPP
+#define WHEELS_META_INVOKE_IF_HPP
 
 #include <wheels/meta/invoke.h++>
-#include <wheels/meta/identity.h++>
-#include <wheels/meta/alias.h++>
-#include <wheels/meta/not_deducible.h++>
-
-#include <wheels/meta/constant.h++>
-#include <wheels/meta/int.h++>
-#include <wheels/meta/bool.h++>
-
 #include <wheels/meta/if.h++>
-#include <wheels/meta/invoke_if.h++>
 
-#endif // WHEELS_META_HPP
+namespace wheels {
+    namespace meta {
+        // Lazy if-then-else metafunction
+        // *Returns*: `Invoke<Then>` if `Condition` is true; `Invoke<Else>` otherwise.
+        template <typename Condition, typename Then, typename Else>
+        using InvokeIf = Invoke<If<Condition, Then, Else>>;
+    } // namespace meta
+} // namespace wheels
+
+#endif // WHEELS_META_INVOKE_IF_HPP
 
