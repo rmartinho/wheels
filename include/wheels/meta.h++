@@ -47,5 +47,11 @@
 #include <wheels/meta/decay.h++>
 #include <wheels/meta/unqualified.h++>
 
+#include <wheels/meta/qualifying_value_category_of.h++>
+#include <wheels/meta/qualifying_const_of.h++>
+#include <wheels/meta/qualifying_volatile_of.h++>
+#include <wheels/meta/qualifying_cv_of.h++>
+#include <wheels/meta/qualifying.h++>
+
 #endif // WHEELS_META_HPP
 
