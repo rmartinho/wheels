@@ -11,8 +11,8 @@
 
 // Generic substitution-failure-to-bool conversion
 
-#ifndef WHEELS_META_CAN_COMPUTE_HPP
-#define WHEELS_META_CAN_COMPUTE_HPP
+#ifndef WHEELS_META_IS_COMPUTABLE_HPP
+#define WHEELS_META_IS_COMPUTABLE_HPP
 
 #include <wheels/meta/invoke.h++>
 #include <wheels/meta/bool.h++>
@@ -23,11 +23,11 @@ namespace wheels {
         // Substitution test
         // *Returns*: `True` if `T::type` can be substituted; `False` otherwise.
         template <typename T, typename Sfinae = void>
-        struct can_compute : False {};
+        struct is_computable : False {};
         template <typename T>
-        struct can_compute<T, Void<Invoke<T>>> : True {};
+        struct is_computable<T, Void<Invoke<T>>> : True {};
     } // namespace meta
 } // namespace wheels
 
-#endif // WHEELS_META_CAN_COMPUTE_HPP
+#endif // WHEELS_META_IS_COMPUTABLE_HPP
 

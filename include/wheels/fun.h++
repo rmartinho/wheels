@@ -15,6 +15,8 @@
 #define WHEELS_FUN_HPP
 
 #include <wheels/fun/invoke.h++>
+#include <wheels/fun/is_invocable.h++>
+#include <wheels/fun/result_of.h++>
 
 #endif // WHEELS_FUN_HPP
 

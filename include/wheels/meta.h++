@@ -29,7 +29,7 @@
 #include <wheels/meta/invoke_if.h++>
 
 #include <wheels/meta/enable_if.h++>
-#include <wheels/meta/can_compute.h++>
+#include <wheels/meta/is_computable.h++>
 
 #include <wheels/meta/depend_on.h++>
 

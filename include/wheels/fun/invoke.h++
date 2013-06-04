@@ -14,12 +14,17 @@
 #ifndef WHEELS_FUN_INVOKE_HPP
 #define WHEELS_FUN_INVOKE_HPP
 
-#include <wheels/meta/any.h++>
 #include <wheels/meta/not.h++>
+#include <wheels/meta/any.h++>
 #include <wheels/meta/unqualified.h++>
 #include <wheels/meta/enable_if.h++>
 #include <wheels/meta/class_of.h++>
 #include <wheels/meta/is_deduced.h++>
+
+#include <wheels/meta/bool.h++>
+#include <wheels/meta/void.h++>
+
+#include <wheels/meta/depend_on.h++>
 
 #include <type_traits> // is_member_function_pointer, is_base_of, is_member_object_pointer, is_convertible, is_void
 #include <utility> // declval, forward
@@ -63,6 +68,7 @@ namespace wheels {
             }
         } // namespace detail
 
+        // Invokes a callable according to INVOKE from [func.require]
         template <typename Explicit = meta::deduced, typename... T,
                   typename Computed = decltype(detail::invoke(std::declval<T>()...)),
                   typename Result = meta::If<meta::is_deduced<Explicit>, Computed, Explicit>,
