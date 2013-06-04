@@ -40,5 +40,9 @@
 #include <wheels/meta/add_cv.h++>
 #include <wheels/meta/remove_cv.h++>
 
+#include <wheels/meta/add_lvalue_reference.h++>
+#include <wheels/meta/add_rvalue_reference.h++>
+#include <wheels/meta/remove_reference.h++>
+
 #endif // WHEELS_META_HPP
 
