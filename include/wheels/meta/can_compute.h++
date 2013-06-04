@@ -9,27 +9,25 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with this software.
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>
 
-// Meta-programming facilities
+// Generic substitution-failure-to-bool conversion
 
-#ifndef WHEELS_META_HPP
-#define WHEELS_META_HPP
+#ifndef WHEELS_META_CAN_COMPUTE_HPP
+#define WHEELS_META_CAN_COMPUTE_HPP
 
 #include <wheels/meta/invoke.h++>
-#include <wheels/meta/identity.h++>
-#include <wheels/meta/alias.h++>
-#include <wheels/meta/not_deducible.h++>
-
-#include <wheels/meta/constant.h++>
-#include <wheels/meta/int.h++>
 #include <wheels/meta/bool.h++>
-
 #include <wheels/meta/void.h++>
 
-#include <wheels/meta/if.h++>
-#include <wheels/meta/invoke_if.h++>
+namespace wheels {
+    namespace meta {
+        // Substitution test
+        // *Returns*: `True` if `T::type` can be substituted; `False` otherwise.
+        template <typename T, typename Sfinae = void>
+        struct can_compute : False {};
+        template <typename T>
+        struct can_compute<T, Void<Invoke<T>>> : True {};
+    } // namespace meta
+} // namespace wheels
 
-#include <wheels/meta/enable_if.h++>
-#include <wheels/meta/can_compute.h++>
-
-#endif // WHEELS_META_HPP
+#endif // WHEELS_META_CAN_COMPUTE_HPP
 
