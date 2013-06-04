@@ -31,5 +31,7 @@
 #include <wheels/meta/enable_if.h++>
 #include <wheels/meta/can_compute.h++>
 
+#include <wheels/meta/depend_on.h++>
+
 #endif // WHEELS_META_HPP
 
