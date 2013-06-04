@@ -14,6 +14,7 @@
 #ifndef WHEELS_META_ALL_HPP
 #define WHEELS_META_ALL_HPP
 
+#include <wheels/meta/invoke.h++>
 #include <wheels/meta/bool.h++>
 #include <wheels/meta/if.h++>
 
@@ -22,9 +23,11 @@ namespace wheels {
         // Boolean conjunction meta-function
         // *Returns*: `True` if all `T::value` are `true`; `False` otherwise.
         template <typename... T>
-        struct All : True {};
+        struct all : True {};
         template <typename H, typename... T>
-        struct All<H, T...> : If<H, All<T...>, False> {};
+        struct all<H, T...> : If<H, All<T...>, False> {};
+        template <typename... T>
+        using All = Invoke<all<T...>>;
     } // namespace meta
 } // namespace wheels
 

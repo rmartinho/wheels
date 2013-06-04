@@ -14,6 +14,7 @@
 #ifndef WHEELS_META_ANY_HPP
 #define WHEELS_META_ANY_HPP
 
+#include <wheels/meta/invoke.h++>
 #include <wheels/meta/bool.h++>
 #include <wheels/meta/if.h++>
 
@@ -22,9 +23,11 @@ namespace wheels {
         // Boolean disjunction meta-function
         // *Returns*: `True` if any `T::value` is `true`; `False` otherwise.
         template <typename... T>
-        struct Any : False {};
+        struct any : False {};
         template <typename H, typename... T>
-        struct Any<H, T...> : If<H, True, Any<T...>> {};
+        struct any<H, T...> : If<H, True, any<T...>> {};
+        template <typename... T>
+        using Any = Invoke<any<T...>>;
     } // namespace meta
 } // namespace wheels
 
