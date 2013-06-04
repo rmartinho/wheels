@@ -56,5 +56,8 @@
 #include <wheels/meta/add_pointer.h++>
 #include <wheels/meta/remove_pointer.h++>
 
+#include <wheels/meta/remove_extent.h++>
+#include <wheels/meta/remove_all_extents.h++>
+
 #endif // WHEELS_META_HPP
 
