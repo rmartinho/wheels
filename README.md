@@ -26,8 +26,7 @@ the comments in the code.
 
 # Thanks
 
-Special thanks go to the person that goes by "Luc Danton" in the
-[Lounge<C++>][lounge] for several ideas.
+Special thanks go to the folks in the [Lounge<C++>][lounge].
 
  [lounge]: http://chat.stackoverflow.com/rooms/10
 
