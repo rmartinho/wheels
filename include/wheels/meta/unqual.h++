@@ -11,8 +11,8 @@
 
 // Qualifier removal
 
-#ifndef WHEELS_META_UNQUALIFIED_HPP
-#define WHEELS_META_UNQUALIFIED_HPP
+#ifndef WHEELS_META_UNQUAL_HPP
+#define WHEELS_META_UNQUAL_HPP
 
 #include <wheels/meta/invoke.h++>
 #include <wheels/meta/remove_reference.h++>
@@ -23,11 +23,11 @@ namespace wheels {
     namespace meta {
         // Removes all qualifiers from a type
         template <typename T>
-        struct unqualified : std::remove_cv<RemoveReference<T>> {};
+        struct unqual : std::remove_cv<RemoveReference<T>> {};
         template <typename T>
-        using Unqualified = Invoke<unqualified<T>>;
+        using Unqual = Invoke<unqual<T>>;
     } // namespace meta
 } // namespace wheels
 
-#endif // WHEELS_META_UNQUALIFIED_HPP
+#endif // WHEELS_META_UNQUAL_HPP
 

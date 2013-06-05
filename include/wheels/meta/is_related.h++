@@ -23,7 +23,7 @@ namespace wheels {
         // Tests if two types have the same core type.
         // *Returns*: `True` if `T` and `U` are the same when unqualified.
         template <typename T, typename U>
-        struct is_related : std::is_same<Unqualified<T>, Unqualified<U>> {};
+        struct is_related : std::is_same<Unqual<T>, Unqual<U>> {};
     } // namespace meta
 } // namespace wheels
 

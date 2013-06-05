@@ -16,7 +16,7 @@
 
 #include <wheels/meta/not.h++>
 #include <wheels/meta/any.h++>
-#include <wheels/meta/unqualified.h++>
+#include <wheels/meta/unqual.h++>
 #include <wheels/meta/enable_if.h++>
 #include <wheels/meta/class_of.h++>
 #include <wheels/meta/is_deduced.h++>
@@ -33,35 +33,35 @@ namespace wheels {
     namespace fun {
         namespace detail {
             template <typename Fun, typename Obj, typename... Args,
-                      meta::EnableIf<std::is_member_function_pointer<meta::Unqualified<Fun>>,
-                                     std::is_base_of<meta::ClassOf<meta::Unqualified<Fun>>, meta::Unqualified<Obj>>>...,
+                      meta::EnableIf<std::is_member_function_pointer<meta::Unqual<Fun>>,
+                                     std::is_base_of<meta::ClassOf<meta::Unqual<Fun>>, meta::Unqual<Obj>>>...,
                       typename Result = decltype((std::declval<Obj>().*std::declval<Fun>())(std::declval<Args>()...))>
             Result invoke(Fun&& fun, Obj&& obj, Args&&... args) {
                 return (std::forward<Obj>(obj).*std::forward<Fun>(fun))(std::forward<Args>(args)...);
             }
             template <typename Fun, typename Obj, typename... Args,
-                      meta::EnableIf<std::is_member_function_pointer<meta::Unqualified<Fun>>,
-                                     meta::Not<std::is_base_of<meta::ClassOf<meta::Unqualified<Fun>>, meta::Unqualified<Obj>>>>...,
+                      meta::EnableIf<std::is_member_function_pointer<meta::Unqual<Fun>>,
+                                     meta::Not<std::is_base_of<meta::ClassOf<meta::Unqual<Fun>>, meta::Unqual<Obj>>>>...,
                       typename Result = decltype(((*std::declval<Obj>()).*std::declval<Fun>())(std::declval<Args>()...))>
             Result invoke(Fun&& fun, Obj&& obj, Args&&... args) {
                 return ((*std::forward<Obj>(obj)).*std::forward<Fun>(fun))(std::forward<Args>(args)...);
             }
             template <typename Fun, typename Obj,
-                      meta::EnableIf<std::is_member_object_pointer<meta::Unqualified<Fun>>,
-                                     std::is_base_of<meta::ClassOf<meta::Unqualified<Fun>>, meta::Unqualified<Obj>>>...,
+                      meta::EnableIf<std::is_member_object_pointer<meta::Unqual<Fun>>,
+                                     std::is_base_of<meta::ClassOf<meta::Unqual<Fun>>, meta::Unqual<Obj>>>...,
                       typename Result = decltype(std::declval<Obj>().*std::declval<Fun>())>
             Result invoke(Fun&& fun, Obj&& obj) {
                 return std::forward<Obj>(obj).*std::forward<Fun>(fun);
             }
             template <typename Fun, typename Obj,
-                      meta::EnableIf<std::is_member_object_pointer<meta::Unqualified<Fun>>,
-                                     meta::Not<std::is_base_of<meta::ClassOf<meta::Unqualified<Fun>>, meta::Unqualified<Obj>>>>...,
+                      meta::EnableIf<std::is_member_object_pointer<meta::Unqual<Fun>>,
+                                     meta::Not<std::is_base_of<meta::ClassOf<meta::Unqual<Fun>>, meta::Unqual<Obj>>>>...,
                       typename Result = decltype((*std::declval<Obj>()).*std::declval<Fun>())>
             Result invoke(Fun&& fun, Obj&& obj) {
                 return (*std::forward<Obj>(obj)).*std::forward<Fun>(fun);
             }
             template <typename Fun, typename... Args,
-                      meta::DisableIf<std::is_member_pointer<meta::Unqualified<Fun>>>...,
+                      meta::DisableIf<std::is_member_pointer<meta::Unqual<Fun>>>...,
                       typename Result = decltype(std::declval<Fun>()(std::declval<Args>()...))>
             Result invoke(Fun&& fun, Args&&... args) {
                 return std::forward<Fun>(fun)(std::forward<Args>(args)...);
