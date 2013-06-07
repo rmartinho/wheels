@@ -36,7 +36,7 @@ namespace wheels {
         // *Effects*: causes a substitution failure if all of `T...` are false.
         // *Remarks*: intended usage is as `DisableIf<F<T>, G<T>>...` in template parameter lists.
         template <typename... T>
-        using DisableIf = Invoke<std::enable_if<Any<T...>::value, detail::enabled>>;
+        using DisableIf = Invoke<std::enable_if<not Any<T...>::value, detail::enabled>>;
     } // namespace meta
 } // namespace wheels
 
