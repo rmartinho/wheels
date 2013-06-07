@@ -2,6 +2,8 @@
 
 Wheels is just a library where I collect stuff I think I can reuse.
 
+*Note: this is a cleaned up version of the [old repo].*
+
 # Compilers
 
 Many compilers currently support only a small subset of the interesting C++
@@ -29,4 +31,4 @@ the comments in the code.
 Special thanks go to the folks in the [Lounge<C++>][lounge].
 
  [lounge]: http://chat.stackoverflow.com/rooms/10
-
+ [old repo]: https://bitbucket.org/martinhofernandes/wheels
