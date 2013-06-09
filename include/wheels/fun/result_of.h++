@@ -34,7 +34,8 @@ namespace wheels {
             : meta::id<decltype((invoke)(std::declval<Fun>(), std::declval<Args>()...))> {};
         } // namespace detail
 
-        // *Returns*: the result of calling `Fun` with the given `Args...`.
+        // *Requires*: `Sig` is a signature type `Fun(Args...)` [hard] and `Fun` is invocable with `Args...` [soft]
+        // *Returns*: the result of calling `Fun` with the given `Args...` through the INVOKE protocol.
         template <typename Sig>
         struct result_of {
             static_assert(meta::DependOn<meta::False, Sig>(), "Sig must be a signature type");

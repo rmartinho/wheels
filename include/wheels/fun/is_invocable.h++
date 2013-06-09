@@ -23,7 +23,7 @@
 
 namespace wheels {
     namespace fun {
-        // *Returns*: `True` if `Fun` is callable with signature `Sig`.
+        // *Returns*: `True` if `Fun` is callable through the INVOKE protocol with signature `Sig`.
         template <typename Fun, typename Sig,
                   typename Sfinae = void>
         struct is_invocable : meta::False {};
