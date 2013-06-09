@@ -18,7 +18,7 @@
 
 namespace wheels {
     namespace op {
-        WHEELS_BINARY_OP_FUNOBJ(negate, -);
+        WHEELS_UNARY_OP_FUNOBJ(negate, -);
     } // namespace op
 } // namespace wheels
 
