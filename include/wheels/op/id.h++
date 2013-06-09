@@ -9,14 +9,12 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with this software.
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>
 
-// id() function object
+// identity function object
 
 #ifndef WHEELS_OP_ID_HPP
 #define WHEELS_OP_ID_HPP
 
-#include <wheels/adl/id.h++>
-
-#include <utility> // declval, forward
+#include <utility> // forward
 
 namespace wheels {
     namespace op {
