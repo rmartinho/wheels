@@ -14,10 +14,15 @@
 #ifndef WHEELS_EXPAND_HPP
 #define WHEELS_EXPAND_HPP
 
-#include <wheels/meta/alias.h++>
+namespace wheels {
+    namespace expand_detail {
+        using ignore = char[];
+    }
+}
 
+// Macro for expanding side-effects
 #define WHEELS_EXPAND(...) \
-    void(::wheels::meta::Alias<char[]> { 0, ((__VA_ARGS__), void(), 0)... })
+    void(::wheels::expand_detail::ignore { 0, ((__VA_ARGS__), void(), 0)... })
 
 #endif // WHEELS_EXPAND_HPP
 
