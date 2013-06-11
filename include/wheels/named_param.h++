@@ -23,7 +23,7 @@
 #include <wheels/meta/invoke.h++>
 #include <wheels/meta/is_specialization_of.h++>
 
-#include <type_traits> // is_reference
+#include <type_traits> // is_reference, is_same
 #include <utility> // forward
 
 // Defines a parameter name that can be used anywhere
