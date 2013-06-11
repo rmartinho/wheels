@@ -28,8 +28,8 @@ namespace wheels {
             private:
                 using impl = std::shared_ptr<T>;
             public:
-                using pointer = typename impl::pointer;
-                using element_type = typename impl::element_type;
+                using typename impl::pointer;
+                using typename impl::element_type;
 
                 constexpr shared_array() noexcept = default;
                 explicit shared_array(pointer p) : impl(p, std::default_delete<T[]>{}) {}

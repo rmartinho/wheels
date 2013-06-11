@@ -26,7 +26,7 @@ namespace wheels {
             private:
                 using impl = std::weak_ptr<T>;
             public:
-                using element_type = typename impl::element_type;
+                using typename impl::element_type;
 
                 constexpr weak_array() noexcept = default;
                 weak_array(shared_array<T> const& r) noexcept : impl(r) {}
