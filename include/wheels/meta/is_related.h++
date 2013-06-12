@@ -14,7 +14,7 @@
 #ifndef WHEELS_META_IS_RELATED_HPP
 #define WHEELS_META_IS_RELATED_HPP
 
-#include <wheels/meta/unqualified.h++>
+#include <wheels/meta/unqual.h++>
 
 #include <type_traits> // is_same
 

@@ -23,6 +23,7 @@ namespace wheels {
         // Propagates the `const` and `volatile` qualifiers of `From` to `To`.
         template <typename From, typename To>
         struct qualifying_cv_of : qualifying_volatile_of<From, QualifyingConstOf<From, To>> {};
+        template <typename From, typename To>
         using QualifyingCvOf = Invoke<qualifying_cv_of<From, To>>;
     } // namespace meta
 } // namespace wheels

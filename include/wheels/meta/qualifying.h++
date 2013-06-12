@@ -23,7 +23,7 @@ namespace wheels {
     namespace meta {
         // Propagates all the qualifiers of `From` to `To`.
         template <typename From, typename To>
-        struct qualifying : qualifying_value_category_of<From, QualifyingCvOf<RemoveReference<In>, To>>
+        struct qualifying : qualifying_value_category_of<From, QualifyingCvOf<RemoveReference<From>, To>> {};
         template <typename From, typename To>
         using Qualifying = Invoke<qualifying<From, To>>;
     } // namespace meta
