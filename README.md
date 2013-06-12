@@ -4,6 +4,8 @@ Wheels is just a library where I collect stuff I think I can reuse.
 
 *Note: this is a cleaned up version of the [old repo].*
 
+[![Build Status](https://travis-ci.org/rmartinho/wheels.png?branch=master)](https://travis-ci.org/rmartinho/wheels)
+
 # Compilers
 
 Many compilers currently support only a small subset of the interesting C++
