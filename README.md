@@ -23,8 +23,8 @@ them.
 
 # Documentation
 
-Documentation is forthcoming. For now the best documentation is the tests and
-the comments in the code.
+Documentation is forthcoming. For now the best documentation is the tests
+(still not fully rewritten) and the comments in the code.
 
 # Thanks
 
