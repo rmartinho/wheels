@@ -17,11 +17,39 @@
 #include <wheels/meta/invoke.h++>
 
 #include <type_traits> // aligned_storage
+#include <utility> // forward
 
 namespace wheels {
     namespace meta {
         template <typename T>
-        struct storage_for : std::aligned_storage<sizeof(T), alignof(T)> {};
+        struct storage_for {
+            struct type {
+            public:
+                T& get() {
+                    return *static_cast<T*>(static_cast<void*>(&storage));
+                }
+                T const& get() const {
+                    return *static_cast<T const*>(static_cast<void const*>(&storage));
+                }
+
+                template <typename... Args>
+                T& construct(Args&&... args) {
+                    return *::new(&storage) T(std::forward<Args>(args)...);
+                }
+
+                template <typename... Args>
+                T& construct_u(Args&&... args) {
+                    return *::new(&storage) T{std::forward<Args>(args)...};
+                }
+
+                void destroy() {
+                    get().~T();
+                }
+
+            private:
+                Invoke<std::aligned_storage<sizeof(T), alignof(T)>> storage;
+            };
+        };
         template <typename T>
         using StorageFor = Invoke<storage_for<T>>;
     } // namespace meta
