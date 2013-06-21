@@ -15,6 +15,8 @@
 
 #include <wheels/meta/storage_for.h++>
 
+#include <cassert>
+
 namespace wheels {
     struct none_t {} constexpr none {};
     template <typename T>
@@ -23,68 +25,81 @@ namespace wheels {
         optional() = default;
         optional(none_t) : optional() {}
 
-        optional(optional const& that) : present(that.present) {
-            if(present) storage.construct(that.storage.get());
+        optional(optional const& that) {
+            if(that.present) construct(that.get());
         }
-        optional(optional&& that) : present(that.present) {
-            if(present) storage.construct(std::move(that.storage.get()));
+        optional(optional&& that) {
+            if(that.present) construct(std::move(that.get()));
         }
 
         optional& operator=(none_t) {
-            if(present) {
-                storage.destroy();
-                present = false;
-            }
+            if(present) destroy();
             return *this;
         }
         optional& operator=(optional const& that) {
-            if(present && that.present) storage.get() = that.storage.get();
-            else if(present) storage.destroy();
-            else if(that.present) storage.construct(that.storage.get());
-            present = that.present;
+            if(present && that.present) get() = that.get();
+            else if(present) destroy();
+            else if(that.present) construct(that.get());
             return *this;
         }
         optional& operator=(optional&& that) {
-            if(present && that.present) storage.get() = std::move(that.storage.get());
-            else if(present) storage.destroy();
-            else if(that.present) place(std::move(that.storage.get()));
-            present = that.present;
+            if(present && that.present) get() = std::move(that.get());
+            else if(present) destroy();
+            else if(that.present) place(std::move(that.get()));
             return *this;
         }
 
         ~optional() {
-            if(present) storage.destroy();
+            if(present) destroy();
         }
 
-        optional(T const& t) : present(true) {
-            storage.construct(t);
+        optional(T const& t) {
+            construct(t);
         }
-        optional(T&& t) : present(true) {
-            storage.construct(std::move(t));
+        optional(T&& t) {
+            construct(std::move(t));
         }
 
         optional& operator=(T const& t) {
-            if(present) storage.get() = t;
-            else storage.construct(t);
+            if(present) get() = t;
+            else construct(t);
             return *this;
         }
         optional& operator=(T&& t) {
-            if(present) storage.get() = std::move(t);
-            else storage.construct(std::move(t));
+            if(present) get() = std::move(t);
+            else construct(std::move(t));
             return *this;
         }
 
-        T& operator*() { return storage.get(); }
-        T const& operator*() const { return storage.get(); }
+        T& operator*() { return get(); }
+        T const& operator*() const { return get(); }
 
-        T* operator->() { return &storage.get(); }
-        T const* operator->() const { return &storage.get(); }
+        T* operator->() { return &get(); }
+        T const* operator->() const { return &get(); }
 
         explicit operator bool() const {
             return present;
         }
 
     private:
+        template <typename... Args>
+        void construct(Args&&... args) {
+            storage.construct(std::forward<Args>(args)...);
+            present = true;
+        }
+        void destroy() {
+            storage.destroy();
+            present = false;
+        }
+        T& get() {
+            assert(present);
+            return storage.get();
+        }
+        T const& get() const {
+            assert(present);
+            return storage.get();
+        }
+
         bool present = false;
         wheels::meta::StorageFor<T> storage;
     };
