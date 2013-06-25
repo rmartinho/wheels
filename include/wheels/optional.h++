@@ -32,10 +32,17 @@ namespace wheels {
         template <typename T>
         struct optional_storage {
         public:
+            optional_storage() = default;
+            optional_storage(optional_storage const&) = delete;
+            optional_storage& operator=(optional_storage const&) = delete;
+
             template <typename... Args>
             void construct(Args&&... args) {
                 storage.construct(std::forward<Args>(args)...);
                 present_ = true;
+            }
+            void assign(T const& t) {
+                get() = t;
             }
             void destroy() {
                 storage.destroy();
@@ -77,26 +84,17 @@ namespace wheels {
             void construct(T& t) {
                 storage = std::addressof(t);
             }
+            void assign(T& t) {
+                construct(t);
+            }
             void destroy() {
                 storage = nullptr;
             }
-            T& get() & {
+            T& get() const {
                 assert(present());
                 return *storage;
             }
-            T& get() && {
-                assert(present());
-                return *storage;
-            }
-            T const& get() const& {
-                assert(present());
-                return *storage;
-            }
-            T* ptr() {
-                assert(present());
-                return storage;
-            }
-            T const* ptr() const {
+            T* ptr() const {
                 assert(present());
                 return storage;
             }
@@ -112,17 +110,23 @@ namespace wheels {
         static_assert(std::is_default_constructible<optional_storage<int&>>(), "");
 
         template <typename T>
-        struct optional_base : protected detail::optional_storage<T> {
-        public:
+        struct optional_base : private detail::optional_storage<T> {
+        private:
             using storage = detail::optional_storage<T>;
+
+        public:
+            using storage::construct;
+            using storage::assign;
+            using storage::get;
+            using storage::present;
 
             optional_base() {}
             optional_base(none_t) {}
 
-            optional_base(optional_base const& that) {
+            optional_base(optional_base const& that) : storage() {
                 if(that.present()) storage::construct(that.get());
             }
-            optional_base(optional_base&& that) {
+            optional_base(optional_base&& that) : storage() {
                 if(that.present()) storage::construct(std::move(that).get());
             }
 
@@ -204,21 +208,21 @@ namespace wheels {
         using base::operator bool;
 
         optional() {}
-        optional(T const& t) {
+        optional(T& t) {
             base::construct(t);
         }
-        optional(T&& t) {
-            base::construct(std::move(t));
+        optional(T&& t) { // TODO should I?
+            base::construct(t);
         }
 
-        optional& operator=(T const& t) {
-            if(base::present()) base::get() = t;
+        optional& operator=(T& t) {
+            if(base::present()) base::assign(t);
             else base::construct(t);
             return *this;
         }
-        optional& operator=(T&& t) {
-            if(base::present()) base::get() = std::move(t);
-            else base::construct(std::move(t));
+        optional& operator=(T&& t) { // TODO should I?
+            if(base::present()) base::assign(t);
+            else base::construct(t);
             return *this;
         }
     };
