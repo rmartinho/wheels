@@ -16,6 +16,7 @@
 
 #include <wheels/meta/invoke.h++>
 
+#include <memory> // addressof
 #include <type_traits> // aligned_storage
 #include <utility> // forward
 
@@ -25,6 +26,12 @@ namespace wheels {
         struct storage_for {
             struct type {
             public:
+                type() = default;
+                type(type const&) = delete;
+                type& operator=(type const&) = delete;
+                type(type&&) = delete;
+                type& operator=(type&&) = delete;
+
                 T& get() {
                     return *static_cast<T*>(static_cast<void*>(&storage));
                 }
@@ -48,6 +55,33 @@ namespace wheels {
 
             private:
                 Invoke<std::aligned_storage<sizeof(T), alignof(T)>> storage;
+            };
+        };
+        template <typename T>
+        struct storage_for<T&> : private storage_for<T*> {
+            struct type {
+            private:
+                using base = storage_for<T*>;
+
+            public:
+                T& get() {
+                    *base::get();
+                }
+                T const& get() const {
+                    return *base::get();
+                }
+
+                T& construct(T& t) {
+                    return *base::construct(std::addressof(t));
+                }
+
+                T& construct_u(T& t) {
+                    return construct(t);
+                }
+
+                void destroy() {
+                    base::destroy();
+                }
             };
         };
         template <typename T>
