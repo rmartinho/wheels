@@ -23,6 +23,10 @@
 #include <wheels/meta/int.h++>
 #include <wheels/meta/bool.h++>
 
+#include <wheels/meta/not.h++>
+#include <wheels/meta/any.h++>
+#include <wheels/meta/all.h++>
+
 #include <wheels/meta/void.h++>
 
 #include <wheels/meta/if.h++>
@@ -32,6 +36,7 @@
 #include <wheels/meta/is_computable.h++>
 
 #include <wheels/meta/depend_on.h++>
+#include <wheels/meta/trait_of.h++>
 
 #include <wheels/meta/add_const.h++>
 #include <wheels/meta/remove_const.h++>
