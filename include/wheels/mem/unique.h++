@@ -69,14 +69,14 @@ namespace wheels {
                   typename Raw,
                   typename Pointee = meta::If<meta::is_deduced<Explicit>, meta::RemovePointer<meta::Unqual<Raw>>, Explicit>,
                   typename Unique = unique<Pointee>>
-        Unique make_unique(names::raw_parameter<Raw> const& raw) {
+        Unique make_unique(names::raw_param<Raw> const& raw) {
             return Unique(raw.forward());
         }
 
         // value-initialized, custom deleter
         template <typename T, typename Deleter,
                   typename Unique = unique<T, meta::Decay<Deleter>>>
-        Unique make_unique(names::deleter_parameter<Deleter> const& deleter) {
+        Unique make_unique(names::deleter_param<Deleter> const& deleter) {
             return Unique(new T(), deleter.forward());
         }
 
@@ -91,7 +91,7 @@ namespace wheels {
                                  has_param<names::deleter_name, A0, A1>>...,
                   typename Raw = ParamType<GetParam<names::raw_name, A0, A1>>,
                   typename Deleter = ParamType<GetParam<names::deleter_name, A0, A1>>,
-                  typename Pointee = meta::If<is_deduced<Explicit>, meta::RemovePointer<meta::Unqual<Raw>>, Explicit>,
+                  typename Pointee = meta::If<meta::is_deduced<Explicit>, meta::RemovePointer<meta::Unqual<Raw>>, Explicit>,
                   typename Unique = unique<Pointee, meta::Decay<Deleter>>>
         Unique make_unique(A0&& a0, A1&& a1) {
             return Unique(forward_named(names::raw, a0, a1), forward_named(names::deleter, a0, a1));

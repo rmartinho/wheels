@@ -32,7 +32,7 @@
         using ::wheels::param_name<NAME##_name>::operator=;             \
     } constexpr NAME {};                                                \
     template <typename T>                                               \
-    using NAME##_param = ::wheels::named_param<NAME##_name>
+    using NAME##_param = ::wheels::named_param<NAME##_name, T>
 
 namespace wheels {
     // Holder for the arguments passed through named parameters
@@ -40,7 +40,7 @@ namespace wheels {
     struct named_param {
     public:
         static_assert(std::is_reference<T>(), "T must be a reference type");
-        static_assert(is_unqual<Name>(), "Name must be an unqualified type");
+        static_assert(meta::is_unqual<Name>(), "Name must be an unqualified type");
 
         using name = Name;
         using type = T;
@@ -76,7 +76,7 @@ namespace wheels {
         get_param<Name, T...>
     > {};
     template <typename Name, typename... Param>
-    using GetParam = meta:Invoke<get_param<Name, Param...>>;
+    using GetParam = meta::Invoke<get_param<Name, Param...>>;
 
     // Name tag for named parameters
     template <typename Name>
@@ -85,7 +85,7 @@ namespace wheels {
         // Fake assignment to hold an argument passed through a parameter of this name
         template <typename T>
         constexpr named_param<Name, T&&> operator=(T&& t) const {
-            return { std::forward<T>(t); };
+            return { std::forward<T>(t) };
         }
         param_name(param_name const&) = delete;
         param_name& operator=(param_name const&) = delete;
@@ -105,7 +105,7 @@ namespace wheels {
     template <typename H, typename... T>
     struct named_param_count<H, T...> : named_param_count<T...> {};
     template <typename N, typename H, typename... T>
-    struct named_param_count<named_param<N, H>, T...> : meta::Int<1 + named_param_count<T...>> {};
+    struct named_param_count<named_param<N, H>, T...> : meta::Int<1 + named_param_count<T...>()> {};
 
     // Forwards the parameter with the given name from an argument list
     template <typename Name, typename H, typename... T>
@@ -113,7 +113,7 @@ namespace wheels {
         return param.forward();
     }
     template <typename Name, typename H, typename... T>
-    ParamType<GetParam<Name, T...>>&& forward_named(Name const&, H&&, T&&... t) {
+    ParamType<GetParam<Name, T...>>&& forward_named(Name const& name, H&&, T&&... t) {
         return forward_named(name, std::forward<T>(t)...);
     }
 } // namespace wheels

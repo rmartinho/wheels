@@ -11,8 +11,8 @@
 
 // Unqualified type tester
 
-#ifndef WHEELS_META_IS_UNQUALIFIED_HPP
-#define WHEELS_META_IS_UNQUALIFIED_HPP
+#ifndef WHEELS_META_IS_UNQUAL_HPP
+#define WHEELS_META_IS_UNQUAL_HPP
 
 #include <wheels/meta/unqual.h++>
 
@@ -23,9 +23,9 @@ namespace wheels {
         // Tests if a type has no qualifiers
         // *Returns*: `True` if `T` has no qualifiers; `False` otherwise.
         template <typename T>
-        struct is_unqualified : std::is_same<T, Unqual<T>> {};
+        struct is_unqual : std::is_same<T, Unqual<T>> {};
     } // namespace meta
 } // namespace wheels
 
-#endif // WHEELS_META_IS_UNQUALIFIED_HPP
+#endif // WHEELS_META_IS_UNQUAL_HPP
 
