@@ -15,6 +15,7 @@
 #define WHEELS_META_IS_RELATED_HPP
 
 #include <wheels/meta/unqual.h++>
+#include <wheels/meta/enable_if.h++>
 
 #include <type_traits> // is_same
 
@@ -24,6 +25,9 @@ namespace wheels {
         // *Returns*: `True` if `T` and `U` are the same when unqualified.
         template <typename T, typename U>
         struct is_related : std::is_same<Unqual<T>, Unqual<U>> {};
+
+        template <typename T, typename U, typename...>
+        using DisableIfRelated = DisableIf<is_related<T, U>>;
     } // namespace meta
 } // namespace wheels
 
