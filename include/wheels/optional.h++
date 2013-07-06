@@ -15,6 +15,7 @@
 
 #include <wheels/meta/storage_for.h++>
 #include <wheels/meta/remove_reference.h++>
+#include <wheels/meta/decay.h++>
 
 #include <cassert>
 #include <memory> // addressof
@@ -115,6 +116,8 @@ namespace wheels {
             using storage = detail::optional_storage<T>;
 
         public:
+            using value_type = T;
+
             using storage::construct;
             using storage::assign;
             using storage::get;
@@ -228,6 +231,11 @@ namespace wheels {
     };
     static_assert(std::is_default_constructible<optional<int>>(), "");
     static_assert(std::is_default_constructible<optional<int&>>(), "");
+
+    template <typename T>
+    optional<wheels::meta::Decay<T>> some(T&& t) {
+        return std::forward<T>(t);
+    }
 } // namespace wheels
 
 #endif // WHEELS_OPTIONAL_HPP
