@@ -48,7 +48,7 @@ namespace wheels {
         /*constexpr*/ operator boost::tribool() const {
             return is_indeterminate(*this)
                     ? boost::indeterminate
-                    : tribool(value == true_value);
+                    : boost::tribool(value == true_value);
         }
 
         constexpr tribool operator&&(tribool that) const {
