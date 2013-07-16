@@ -29,7 +29,7 @@ namespace wheels {
         } // namespace detail
 
         // Calls swap with ADL-lookup include std::swap
-        template <std::size_t I, typename T,
+        template <typename T,
                   typename Result = decltype(detail::adl_end(std::declval<T>()))>
         Result end(T&& t) {
             return detail::adl_end(std::forward<T>(t));
