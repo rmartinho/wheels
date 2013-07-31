@@ -25,8 +25,12 @@ them.
 
 # Documentation
 
-Documentation is forthcoming. For now the best documentation is the tests
-(still not fully rewritten) and the comments in the code.
+Documentation is forthcoming. For now the best documentation is the tests and
+the comments in the code.
+
+# Feedback
+
+You can suggest improvements or report bugs in the [issue tracker]
 
 # Thanks
 
@@ -34,3 +38,5 @@ Special thanks go to the folks in the [Lounge<C++>][lounge].
 
  [lounge]: http://chat.stackoverflow.com/rooms/10
  [old repo]: https://bitbucket.org/martinhofernandes/wheels
+ [issue tracker]: http://bugs.flamingdangerzone.com/youtrack/issues?q=project%3A+Wheels
+
