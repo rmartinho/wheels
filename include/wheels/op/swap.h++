@@ -22,7 +22,9 @@ namespace wheels {
     namespace op {
         struct swap {
             template <typename T, typename U>
-            auto operator()(T&& t, U&& u) -> decltype(adl::swap(std::declval<T>(), std::declval<U>())) {
+            auto operator()(T&& t, U&& u) const
+            noexcept(noexcept(adl::swap(std::declval<T>(), std::declval<U>())))
+            -> decltype(adl::swap(std::declval<T>(), std::declval<U>())) {
                 return adl::swap(std::forward<T>(t), std::forward<U>(u));
             }
         };

@@ -78,5 +78,7 @@
 #include <wheels/meta/class_of.h++>
 #include <wheels/meta/member_of.h++>
 
+#include <wheels/meta/noexcept.h++>
+
 #endif // WHEELS_META_HPP
 

@@ -22,7 +22,9 @@ namespace wheels {
     namespace op {
         struct invoke {
             template <typename... T>
-            auto operator()(T&&... t) -> decltype(fun::invoke(std::declval<T>()...)) {
+            auto operator()(T&&... t) const
+            noexcept(noexcept(fun::invoke(std::declval<T>()...)))
+            -> decltype(fun::invoke(std::declval<T>()...)) {
                 return fun::invoke(std::forward<T>(t)...);
             }
         };

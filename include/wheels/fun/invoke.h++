@@ -35,46 +35,51 @@ namespace wheels {
             template <typename Fun, typename Obj, typename... Args,
                       meta::EnableIf<std::is_member_function_pointer<meta::Unqual<Fun>>,
                                      std::is_base_of<meta::ClassOf<meta::Unqual<Fun>>, meta::Unqual<Obj>>>...,
-                      typename Result = decltype((std::declval<Obj>().*std::declval<Fun>())(std::declval<Args>()...))>
-            Result invoke(Fun&& fun, Obj&& obj, Args&&... args) {
+                      typename Result = decltype((std::declval<Obj>().*std::declval<Fun>())(std::declval<Args>()...)),
+                      bool NoExcept = noexcept((std::declval<Obj>().*std::declval<Fun>())(std::declval<Args>()...))>
+            Result invoke(Fun&& fun, Obj&& obj, Args&&... args) noexcept(NoExcept) {
                 return (std::forward<Obj>(obj).*std::forward<Fun>(fun))(std::forward<Args>(args)...);
             }
             template <typename Fun, typename Obj, typename... Args,
                       meta::EnableIf<std::is_member_function_pointer<meta::Unqual<Fun>>,
                                      meta::Not<std::is_base_of<meta::ClassOf<meta::Unqual<Fun>>, meta::Unqual<Obj>>>>...,
-                      typename Result = decltype(((*std::declval<Obj>()).*std::declval<Fun>())(std::declval<Args>()...))>
-            Result invoke(Fun&& fun, Obj&& obj, Args&&... args) {
+                      typename Result = decltype(((*std::declval<Obj>()).*std::declval<Fun>())(std::declval<Args>()...)),
+                      bool NoExcept = noexcept(((*std::declval<Obj>()).*std::declval<Fun>())(std::declval<Args>()...))>
+            Result invoke(Fun&& fun, Obj&& obj, Args&&... args) noexcept(NoExcept) {
                 return ((*std::forward<Obj>(obj)).*std::forward<Fun>(fun))(std::forward<Args>(args)...);
             }
             template <typename Fun, typename Obj,
                       meta::EnableIf<std::is_member_object_pointer<meta::Unqual<Fun>>,
                                      std::is_base_of<meta::ClassOf<meta::Unqual<Fun>>, meta::Unqual<Obj>>>...,
-                      typename Result = decltype(std::declval<Obj>().*std::declval<Fun>())>
-            Result invoke(Fun&& fun, Obj&& obj) {
+                      typename Result = decltype(std::declval<Obj>().*std::declval<Fun>()),
+                      bool NoExcept = noexcept(std::declval<Obj>().*std::declval<Fun>())>
+            Result invoke(Fun&& fun, Obj&& obj) noexcept(NoExcept) {
                 return std::forward<Obj>(obj).*std::forward<Fun>(fun);
             }
             template <typename Fun, typename Obj,
                       meta::EnableIf<std::is_member_object_pointer<meta::Unqual<Fun>>,
                                      meta::Not<std::is_base_of<meta::ClassOf<meta::Unqual<Fun>>, meta::Unqual<Obj>>>>...,
-                      typename Result = decltype((*std::declval<Obj>()).*std::declval<Fun>())>
-            Result invoke(Fun&& fun, Obj&& obj) {
+                      typename Result = decltype((*std::declval<Obj>()).*std::declval<Fun>()),
+                      bool NoExcept = noexcept((*std::declval<Obj>()).*std::declval<Fun>())>
+            Result invoke(Fun&& fun, Obj&& obj) noexcept(NoExcept) {
                 return (*std::forward<Obj>(obj)).*std::forward<Fun>(fun);
             }
             template <typename Fun, typename... Args,
                       meta::DisableIf<std::is_member_pointer<meta::Unqual<Fun>>>...,
-                      typename Result = decltype(std::declval<Fun>()(std::declval<Args>()...))>
-            Result invoke(Fun&& fun, Args&&... args) {
+                      typename Result = decltype(std::declval<Fun>()(std::declval<Args>()...)),
+                      bool NoExcept = noexcept(std::declval<Fun>()(std::declval<Args>()...))>
+            Result invoke(Fun&& fun, Args&&... args) noexcept(NoExcept) {
                 return std::forward<Fun>(fun)(std::forward<Args>(args)...);
             }
         } // namespace detail
 
-        // Invokes a callable according to INVOKE from [func.require]
         template <typename Explicit = meta::deduced, typename... T,
                   typename Computed = decltype(detail::invoke(std::declval<T>()...)),
                   typename Result = meta::If<meta::is_deduced<Explicit>, Computed, Explicit>,
-                  meta::EnableIf<meta::Any<std::is_convertible<Computed, Result>, std::is_void<Result>>>...>
-        Result invoke(T&&... t) {
-            return Result(detail::invoke(std::forward<T>(t)...));
+                  meta::EnableIf<meta::Any<std::is_convertible<Computed, Result>, std::is_void<Result>>>...,
+                  bool NoExcept = noexcept(detail::invoke(std::declval<T>()...))>
+        Result invoke(T&&... t) noexcept(NoExcept) {
+            return detail::invoke(std::forward<T>(t)...);
         }
     } // namespace fun
 } // namespace wheels

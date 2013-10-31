@@ -23,16 +23,18 @@ namespace wheels {
         namespace detail {
             using std::get;
             template <std::size_t I, typename T,
-                      typename Result = decltype(get<I>(std::declval<T>()))>
-            Result adl_get(T&& t) {
+                      typename Result = decltype(get<I>(std::declval<T>())),
+                      bool NoExcept = noexcept(get<I>(std::declval<T>()))>
+            Result adl_get(T&& t) noexcept(NoExcept) {
                 return get<I>(std::forward<T>(t));
             }
         } // namespace detail
 
-        // Calls swap with ADL-lookup include std::swap
+        // Calls get with ADL-lookup include std::get
         template <std::size_t I, typename T,
-                  typename Result = decltype(detail::adl_get<I>(std::declval<T>()))>
-        Result get(T&& t) {
+                  typename Result = decltype(detail::adl_get<I>(std::declval<T>())),
+                  bool NoExcept = noexcept(detail::adl_get<I>(std::declval<T>()))>
+        Result get(T&& t) noexcept(NoExcept) {
             return detail::adl_get<I>(std::forward<T>(t));
         }
     } // namespace adl

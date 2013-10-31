@@ -49,10 +49,10 @@ namespace wheels {
                     return *this;
                 }
 
-                T& operator[](std::size_t i) const {
+                T& operator[](std::size_t i) const noexcept {
                     return get()[i];
                 }
-                std::shared_ptr<T> share(std::size_t i) const {
+                std::shared_ptr<T> share(std::size_t i) const noexcept {
                     return { *this, get()[i] };
                 }
                 using impl::get;

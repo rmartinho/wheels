@@ -45,11 +45,11 @@ namespace wheels {
         using name = Name;
         using type = T;
 
-        constexpr named_param(T&& t) : ref(std::forward<T>(t)) {}
+        constexpr named_param(T&& t) noexcept : ref(std::forward<T>(t)) {}
 
         void operator=(named_param const&) = delete;
 
-        T&& forward() const { return std::forward<T>(ref); }
+        T&& forward() const noexcept { return std::forward<T>(ref); }
 
     private:
         T ref;
@@ -81,10 +81,10 @@ namespace wheels {
     // Name tag for named parameters
     template <typename Name>
     struct param_name {
-        constexpr param_name() = default;
+        constexpr param_name() noexcept = default;
         // Fake assignment to hold an argument passed through a parameter of this name
         template <typename T>
-        constexpr named_param<Name, T&&> operator=(T&& t) const {
+        constexpr named_param<Name, T&&> operator=(T&& t) const noexcept {
             return { std::forward<T>(t) };
         }
         param_name(param_name const&) = delete;
@@ -109,11 +109,11 @@ namespace wheels {
 
     // Forwards the parameter with the given name from an argument list
     template <typename Name, typename H, typename... T>
-    H&& forward_named(Name const&, named_param<Name, H> const& param, T&&...) {
+    H&& forward_named(Name const&, named_param<Name, H> const& param, T&&...) noexcept {
         return param.forward();
     }
     template <typename Name, typename H, typename... T>
-    ParamType<GetParam<Name, T...>>&& forward_named(Name const& name, H&&, T&&... t) {
+    ParamType<GetParam<Name, T...>>&& forward_named(Name const& name, H&&, T&&... t) noexcept {
         return forward_named(name, std::forward<T>(t)...);
     }
 } // namespace wheels

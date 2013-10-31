@@ -14,14 +14,19 @@
 #ifndef WHEELS_OP_DETAIL_UNARY_OP_HPP
 #define WHEELS_OP_DETAIL_UNARY_OP_HPP
 
+#include <wheels/meta/noexcept.h++> // is_nothrow_returnable
+
 #include <utility> // declval, forward
 
-#define WHEELS_UNARY_OP_FUNOBJ(NAME, OP)                            \
-    struct NAME {                                                   \
-        template <typename T, typename U>                           \
-        auto operator()(T&& t) -> decltype(OP std::declval<T>()) {  \
-            return OP std::forward<T>(t);                           \
-        }                                                           \
+#define WHEELS_UNARY_OP_FUNOBJ(NAME, OP)                                \
+    struct NAME {                                                       \
+        template <typename T, typename U,                               \
+                  typename Result = decltype(OP std::declval<U>()),     \
+                  bool NoExcept = noexcept(OP std::declval<U>())        \
+                              && meta::is_nothrow_returnable<Result>()> \
+        Result operator()(T&& t) const noexcept(NoExcept) {             \
+            return OP std::forward<T>(t);                               \
+        }                                                               \
     }
 
 #endif // WHEELS_OP_DETAIL_UNARY_OP_HPP

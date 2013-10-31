@@ -41,7 +41,7 @@ namespace wheels {
             static_assert(meta::DependOn<meta::False, Sig>(), "Sig must be a signature type");
         };
         template <typename Fun, typename... Args>
-        struct result_of<Fun(Args...)> : detail::result_of<Fun(Args...), is_invocable<Fun, void(Args...)>::value> {};
+       struct result_of<Fun(Args...)> : detail::result_of<Fun(Args...), is_invocable<Fun, void(Args...)>::value> {};
         template <typename Sig>
         using ResultOf = meta::Invoke<result_of<Sig>>;
     } // namespace fun

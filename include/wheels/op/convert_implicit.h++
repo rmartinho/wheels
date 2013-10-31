@@ -14,12 +14,14 @@
 #ifndef WHEELS_OP_CONVERT_IMPLICIT_HPP
 #define WHEELS_OP_CONVERT_IMPLICIT_HPP
 
+#include <wheels/meta/noexcept.h++> // is_nothrow_convertible
+
 namespace wheels {
     namespace op {
         template <typename T>
         struct convert_implicit {
             template <typename U>
-            T operator()(U&& u) {
+            T operator()(U&& u) const noexcept(meta::is_nothrow_convertible<U, T>()) {
                 return std::forward<U>(u);
             }
         };

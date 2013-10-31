@@ -22,16 +22,18 @@ namespace wheels {
         namespace detail {
             using std::begin;
             template <typename T,
-                      typename Result = decltype(begin(std::declval<T>()))>
-            Result adl_begin(T&& t) {
+                      typename Result = decltype(begin(std::declval<T>())),
+                      bool NoExcept = noexcept(begin(std::declval<T>()))>
+            Result adl_begin(T&& t) noexcept(NoExcept) {
                 return begin(std::forward<T>(t));
             }
         } // namespace detail
 
-        // Calls swap with ADL-lookup include std::swap
+        // Calls begin with ADL-lookup including std::begin
         template <typename T,
-                  typename Result = decltype(detail::adl_begin(std::declval<T>()))>
-        Result begin(T&& t) {
+                  typename Result = decltype(detail::adl_begin(std::declval<T>())),
+                  bool NoExcept = noexcept(detail::adl_begin(std::declval<T>()))>
+        Result begin(T&& t) noexcept(NoExcept) {
             return detail::adl_begin(std::forward<T>(t));
         }
     } // namespace adl

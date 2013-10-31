@@ -20,7 +20,7 @@ namespace wheels {
     namespace op {
         struct address {
             template <typename T>
-            T* operator()(T& t) {
+            T* operator()(T& t) const noexcept {
                 return std::addressof(t);
             }
         };

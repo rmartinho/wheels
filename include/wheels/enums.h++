@@ -23,7 +23,7 @@
     template <typename Enum,                                                    \
               ::wheels::meta::EnableIf<std::is_enum<Enum>>...,                  \
               ::wheels::meta::EnableIf< ::wheels::enums::is_##KIND<Enum>>...>   \
-    constexpr Enum operator OP(Enum value) {                                    \
+    constexpr Enum operator OP(Enum value) noexcept {                           \
         return static_cast<Enum>(OP ::wheels::enums::to_underlying(value));     \
     }
 
@@ -31,14 +31,14 @@
     template <typename Enum,                                                    \
               ::wheels::meta::EnableIf<std::is_enum<Enum>>...,                  \
               ::wheels::meta::EnableIf< ::wheels::enums::is_##KIND<Enum>>...>   \
-    constexpr Enum operator OP(Enum const& l, Enum const& r) {                  \
+    constexpr Enum operator OP(Enum const& l, Enum const& r) noexcept {         \
         return static_cast<Enum>(::wheels::enums::to_underlying(l)              \
                                  OP ::wheels::enums::to_underlying(r));         \
     }                                                                           \
     template <typename Enum,                                                    \
               ::wheels::meta::EnableIf<std::is_enum<Enum>>...,                  \
               ::wheels::meta::EnableIf< ::wheels::enums::is_##KIND<Enum>>...>   \
-    constexpr Enum operator OP##=(Enum& l, Enum const& r) {                     \
+    constexpr Enum operator OP##=(Enum& l, Enum const& r) noexcept {            \
         return l = l OP r;                                                       \
     }
 
@@ -50,7 +50,7 @@ namespace wheels {
         template <typename Enum,
                   meta::EnableIf<std::is_enum<Enum>>...,
                   typename Underlying = meta::UnderlyingType<Enum>>
-        constexpr Underlying to_underlying(Enum value) {
+        constexpr Underlying to_underlying(Enum value) noexcept {
             return static_cast<Underlying>(value);
         }
 
@@ -64,7 +64,7 @@ namespace wheels {
         template <typename Enum,
                   wheels::meta::EnableIf<std::is_enum<Enum>>...,
                   wheels::meta::EnableIf<is_flags<Enum>>...>
-        bool has_flag_set(Enum flags, Enum flag) {
+        bool has_flag_set(Enum flags, Enum flag) noexcept {
             return (to_underlying(flags) & to_underlying(flag)) != 0;
         }
     } // namespace enums

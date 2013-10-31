@@ -15,9 +15,10 @@
 #define WHEELS_STORAGE_FOR_HPP
 
 #include <wheels/meta/invoke.h++>
+#include <wheels/meta/noexcept.h++>
 
 #include <memory> // addressof
-#include <type_traits> // aligned_storage
+#include <type_traits> // aligned_storage, is_nothrow_destructible
 #include <utility> // forward
 
 namespace wheels {
@@ -26,30 +27,30 @@ namespace wheels {
         struct storage_for {
             struct type {
             public:
-                type() = default;
+                type() noexcept = default;
                 type(type const&) = delete;
                 type& operator=(type const&) = delete;
                 type(type&&) = delete;
                 type& operator=(type&&) = delete;
 
-                T& get() {
+                T& get() noexcept {
                     return *static_cast<T*>(static_cast<void*>(&storage));
                 }
-                T const& get() const {
+                T const& get() const noexcept {
                     return *static_cast<T const*>(static_cast<void const*>(&storage));
                 }
 
                 template <typename... Args>
-                T& construct(Args&&... args) {
+                T& construct(Args&&... args) noexcept(meta::is_nothrow_placeable<T, Args&&...>()) {
                     return *::new(&storage) T(std::forward<Args>(args)...);
                 }
 
                 template <typename... Args>
-                T& construct_braced(Args&&... args) {
+                T& construct_braced(Args&&... args) noexcept(meta::is_nothrow_placeable_braced<T, Args&&...>()) {
                     return *::new(&storage) T{std::forward<Args>(args)...};
                 }
 
-                void destroy() {
+                void destroy() noexcept(std::is_nothrow_destructible<T>()) {
                     get().~T();
                 }
 
@@ -64,22 +65,22 @@ namespace wheels {
                 using base = storage_for<T*>;
 
             public:
-                T& get() {
+                T& get() noexcept {
                     *base::get();
                 }
-                T const& get() const {
+                T const& get() const noexcept {
                     return *base::get();
                 }
 
-                T& construct(T& t) {
+                T& construct(T& t) noexcept {
                     return *base::construct(std::addressof(t));
                 }
 
-                T& construct_u(T& t) {
+                T& construct_u(T& t) noexcept {
                     return construct(t);
                 }
 
-                void destroy() {
+                void destroy() noexcept {
                     base::destroy();
                 }
             };

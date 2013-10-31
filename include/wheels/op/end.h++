@@ -22,7 +22,9 @@ namespace wheels {
     namespace op {
         struct end {
             template <typename T>
-            auto operator()(T&& t) -> decltype(adl::end(std::declval<T>())) {
+            auto operator()(T&& t) const
+            noexcept(noexcept(adl::end(std::declval<T>())))
+            -> decltype(adl::end(std::declval<T>())) {
                 return adl::end(std::forward<T>(t));
             }
         };

@@ -19,39 +19,39 @@ namespace wheels {
     using boost::indeterminate;
 
     struct tribool;
-    constexpr bool is_true(tribool t);
-    constexpr bool is_false(tribool t);
-    constexpr bool is_indeterminate(tribool t);
+    constexpr bool is_true(tribool t) noexcept;
+    constexpr bool is_false(tribool t) noexcept;
+    constexpr bool is_indeterminate(tribool t) noexcept;
 
     struct tribool {
     public:
-        constexpr tribool() : tribool(false_value) {}
-        constexpr tribool(bool value) : value(value? true_value : false_value) {}
-        constexpr tribool(decltype(boost::indeterminate)) : value(indeterminate_value) {}
-        /*constexpr*/ tribool(boost::tribool t) : value(t? true_value : !t? false_value : indeterminate_value) {}
+        constexpr tribool() noexcept : tribool(false_value) {}
+        constexpr tribool(bool value) noexcept : value(value? true_value : false_value) {}
+        constexpr tribool(decltype(boost::indeterminate)) noexcept : value(indeterminate_value) {}
+        /*constexpr*/ tribool(boost::tribool t) noexcept : value(t? true_value : !t? false_value : indeterminate_value) {}
 
-        constexpr tribool operator!() const {
+        constexpr tribool operator!() const noexcept {
             return is_indeterminate(*this)? *this : !value;
         }
 
-        constexpr tribool operator==(tribool that) const {
+        constexpr tribool operator==(tribool that) const noexcept {
             return is_indeterminate(*this) || is_indeterminate(that)
                     ? indeterminate
                     : tribool(value == that.value);
         }
-        constexpr tribool operator!=(tribool that) const {
+        constexpr tribool operator!=(tribool that) const noexcept {
             return is_indeterminate(*this) || is_indeterminate(that)
                     ? indeterminate
                     : tribool(value != that.value);
         }
 
-        /*constexpr*/ operator boost::tribool() const {
+        /*constexpr*/ operator boost::tribool() const noexcept {
             return is_indeterminate(*this)
                     ? boost::indeterminate
                     : boost::tribool(value == true_value);
         }
 
-        constexpr tribool operator&&(tribool that) const {
+        constexpr tribool operator&&(tribool that) const noexcept {
             return is_false(*this) || is_false(that)
                     ? false
                     : is_indeterminate(*this) || is_indeterminate(that)
@@ -59,7 +59,7 @@ namespace wheels {
                         : tribool(true);
         }
 
-        constexpr tribool operator||(tribool that) const {
+        constexpr tribool operator||(tribool that) const noexcept {
             return is_true(*this) || is_true(that)
                     ? true
                     : is_indeterminate(*this) || is_indeterminate(that)
@@ -70,9 +70,9 @@ namespace wheels {
     private:
         enum { false_value, true_value, indeterminate_value } value;
 
-        friend constexpr bool is_true(tribool t) { return t.value == true_value; }
-        friend constexpr bool is_false(tribool t) { return t.value == false_value; }
-        friend constexpr bool is_indeterminate(tribool t) { return t.value == indeterminate_value; }
+        friend constexpr bool is_true(tribool t) noexcept { return t.value == true_value; }
+        friend constexpr bool is_false(tribool t) noexcept { return t.value == false_value; }
+        friend constexpr bool is_indeterminate(tribool t) noexcept { return t.value == indeterminate_value; }
     };
 
 } // namespace wheels

@@ -20,7 +20,7 @@ namespace wheels {
     namespace op {
         struct move {
             template <typename T>
-            meta::RemoveReference<T>&& operator()(T&& t) {
+            meta::RemoveReference<T>&& operator()(T&& t) const noexcept {
                 return std::move(t);
             }
         };

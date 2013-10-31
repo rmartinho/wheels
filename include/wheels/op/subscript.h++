@@ -19,8 +19,11 @@
 namespace wheels {
     namespace op {
         struct subscript {
-            template <typename T, typename U>
-            auto operator()(T&& t, U&& u) -> decltype(std::declval<T>()[std::declval<U>()]) {
+            template <typename T, typename U,
+                      typename Result = decltype(std::declval<T>()[std::declval<U>()]),
+                      bool NoExcept = noexcept(std::declval<T>()[std::declval<U>()])
+                                   && meta::is_nothrow_returnable<Result>()>
+            Result operator()(T&& t, U&& u) const noexcept(NoExcept) {
                 return std::forward<T>(t)[std::forward<U>(u)];
             }
         };

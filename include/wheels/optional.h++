@@ -1,3 +1,4 @@
+// Wheels - various C++ utilities
 //
 // Written in 2013 by Martinho Fernandes <martinho.fernandes@gmail.com>
 //
@@ -19,6 +20,7 @@
 
 #include <cassert>
 #include <memory> // addressof
+#include <type_traits> // is_nothrow_assignable
 
 namespace wheels {
     template <typename T>
@@ -26,51 +28,54 @@ namespace wheels {
 
     struct none_t {
         template <typename T>
-        constexpr operator optional<T>() const { return {}; }
+        constexpr operator optional<T>() const noexcept { return {}; }
     } constexpr none;
 
     namespace detail {
         template <typename T>
         struct optional_storage {
         public:
-            optional_storage() = default;
+            optional_storage() noexcept = default;
             optional_storage(optional_storage const&) = delete;
             optional_storage& operator=(optional_storage const&) = delete;
 
             template <typename... Args>
-            void construct(Args&&... args) {
+            void construct(Args&&... args) noexcept(std::is_nothrow_constructible<T, Args&&...>()) {
                 storage.construct(std::forward<Args>(args)...);
                 present_ = true;
             }
-            void assign(T const& t) {
+            void assign(T const& t) noexcept(std::is_nothrow_copy_assignable<T>()) {
                 get() = t;
             }
-            void destroy() {
+            void assign(T&& t) noexcept(std::is_nothrow_move_assignable<T>()) {
+                get() = std::move(t);
+            }
+            void destroy() noexcept(std::is_nothrow_destructible<T>()) {
                 storage.destroy();
                 present_ = false;
             }
-            T& get() & {
+            T& get() & noexcept {
                 assert(present());
                 return storage.get();
             }
-            T&& get() && {
+            T&& get() && noexcept {
                 assert(present());
                 return std::move(storage.get());
             }
-            T const& get() const& {
+            T const& get() const& noexcept {
                 assert(present());
                 return storage.get();
             }
-            T* ptr() {
+            T* ptr() noexcept {
                 assert(present());
                 return storage.ptr();
             }
-            T const* ptr() const {
+            T const* ptr() const noexcept {
                 assert(present());
                 return storage.ptr();
             }
 
-            bool present() const {
+            bool present() const noexcept {
                 return present_;
             }
 
@@ -82,25 +87,25 @@ namespace wheels {
         template <typename T>
         struct optional_storage<T&> {
         public:
-            void construct(T& t) {
+            void construct(T& t) noexcept {
                 storage = std::addressof(t);
             }
-            void assign(T& t) {
+            void assign(T& t) noexcept {
                 construct(t);
             }
-            void destroy() {
+            void destroy() noexcept {
                 storage = nullptr;
             }
-            T& get() const {
+            T& get() const noexcept {
                 assert(present());
                 return *storage;
             }
-            T* ptr() const {
+            T* ptr() const noexcept {
                 assert(present());
                 return storage;
             }
 
-            bool present() const {
+            bool present() const noexcept {
                 return storage;
             }
 
@@ -123,45 +128,53 @@ namespace wheels {
             using storage::get;
             using storage::present;
 
-            optional_base() {}
-            optional_base(none_t) {}
+            optional_base() noexcept {}
+            optional_base(none_t) noexcept {}
 
-            optional_base(optional_base const& that) : storage() {
+            optional_base(optional_base const& that) noexcept(meta::is_nothrow_copy_placeable<T>())
+            : storage() {
                 if(that.present()) storage::construct(that.get());
             }
-            optional_base(optional_base&& that) : storage() {
+            optional_base(optional_base&& that) noexcept(meta::is_nothrow_move_placeable<T>())
+            : storage() {
                 if(that.present()) storage::construct(std::move(that).get());
             }
 
-            optional_base& operator=(none_t) {
+            optional_base& operator=(none_t) noexcept(std::is_nothrow_destructible<T>()) {
                 if(storage::present()) storage::destroy();
                 return *this;
             }
-            optional_base& operator=(optional_base const& that) {
-                if(storage::present() && that.present()) storage::get() = that.get();
+            optional_base& operator=(optional_base const& that)
+            noexcept(noexcept(std::declval<storage&>().assign(that.get()))
+                  && std::is_nothrow_destructible<T>()
+                  && meta::is_nothrow_copy_placeable<T>()) {
+                if(storage::present() && that.present()) storage::assign(that.get());
                 else if(storage::present()) storage::destroy();
                 else if(that.present()) storage::construct(that.get());
                 return *this;
             }
-            optional_base& operator=(optional_base&& that) {
-                if(storage::present() && that.present()) storage::get() = std::move(that).get();
+            optional_base& operator=(optional_base&& that)
+            noexcept(noexcept(std::declval<storage&>().assign(std::move(that).get()))
+                  && std::is_nothrow_destructible<T>()
+                  && meta::is_nothrow_move_placeable<T>()) {
+                if(storage::present() && that.present()) storage::assign(std::move(that).get());
                 else if(storage::present()) storage::destroy();
                 else if(that.present()) storage::construct(std::move(that).get());
                 return *this;
             }
 
-            ~optional_base() {
+            ~optional_base() noexcept(std::is_nothrow_destructible<T>()) {
                 if(storage::present()) storage::destroy();
             }
 
-            wheels::meta::RemoveReference<T>& operator*() & { return storage::get(); }
-            wheels::meta::RemoveReference<T>&& operator*() && { return storage::get(); }
-            wheels::meta::RemoveReference<T> const& operator*() const& { return storage::get(); }
+            wheels::meta::RemoveReference<T>& operator*() & noexcept { return storage::get(); }
+            wheels::meta::RemoveReference<T>&& operator*() && noexcept { return storage::get(); }
+            wheels::meta::RemoveReference<T> const& operator*() const& noexcept { return storage::get(); }
 
-            wheels::meta::RemoveReference<T>* operator->() { return storage::ptr(); }
-            wheels::meta::RemoveReference<T> const* operator->() const { return storage::ptr(); }
+            wheels::meta::RemoveReference<T>* operator->() noexcept { return storage::ptr(); }
+            wheels::meta::RemoveReference<T> const* operator->() const noexcept { return storage::ptr(); }
 
-            explicit operator bool() const {
+            explicit operator bool() const noexcept {
                 return storage::present();
             }
         };
@@ -180,20 +193,24 @@ namespace wheels {
         using base::operator->;
         using base::operator bool;
 
-        optional() = default;
-        optional(T const& t) {
+        optional() noexcept = default;
+        optional(T const& t) noexcept(meta::is_nothrow_copy_placeable<T>()) {
             base::construct(t);
         }
-        optional(T&& t) {
+        optional(T&& t) noexcept(meta::is_nothrow_move_placeable<T>()) {
             base::construct(std::move(t));
         }
 
-        optional& operator=(T const& t) {
+        optional& operator=(T const& t)
+        noexcept(std::is_nothrow_copy_assignable<T>()
+                && meta::is_nothrow_copy_placeable<T>()) {
             if(base::present()) base::get() = t;
             else base::construct(t);
             return *this;
         }
-        optional& operator=(T&& t) {
+        optional& operator=(T&& t)
+        noexcept(std::is_nothrow_move_assignable<T>()
+                && meta::is_nothrow_move_placeable<T>()) {
             if(base::present()) base::get() = std::move(t);
             else base::construct(std::move(t));
             return *this;
@@ -210,20 +227,20 @@ namespace wheels {
         using base::operator->;
         using base::operator bool;
 
-        optional() {}
-        optional(T& t) {
+        optional() noexcept {}
+        optional(T& t) noexcept {
             base::construct(t);
         }
-        optional(T&& t) { // TODO should I?
+        optional(T&& t) noexcept { // TODO should I?
             base::construct(t);
         }
 
-        optional& operator=(T& t) {
+        optional& operator=(T& t) noexcept {
             if(base::present()) base::assign(t);
             else base::construct(t);
             return *this;
         }
-        optional& operator=(T&& t) { // TODO should I?
+        optional& operator=(T&& t) noexcept { // TODO should I?
             if(base::present()) base::assign(t);
             else base::construct(t);
             return *this;
