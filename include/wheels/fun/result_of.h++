@@ -47,5 +47,5 @@ namespace wheels {
     } // namespace fun
 } // namespace wheels
 
-#endif // WHEELS_FUN_INVOKE_HPP
+#endif // WHEELS_FUN_RESULT_OF_HPP
 
