@@ -33,11 +33,10 @@
         CHECK(::wheels::is_indeterminate((x))); \
     }
 
-TEST_CASE("tribool", "tribool tests") {
+TEST_CASE("tribool", "[tribool]") {
     using wheels::indeterminate;
     static_assert(!std::is_convertible<wheels::tribool, bool>(), "tribool cannot be implicitly convertible to bool");
 
-    wheels::tribool xxx;
     SECTION("default-ctor", "") {
         wheels::tribool a;
         CHECK_TRIBOOL_FALSE(a);

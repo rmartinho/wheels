@@ -15,7 +15,7 @@
 
 #include <catch.h++>
 
-TEST_CASE("optional", "optional tests") {
+TEST_CASE("optional", "[optional]") {
     wheels::optional<int> o1;
     CHECK(!o1);
     wheels::optional<int> o2 = 42;
@@ -39,7 +39,7 @@ TEST_CASE("optional", "optional tests") {
     CHECK(*o3 == 23);
 }
 
-TEST_CASE("optional-ref", "optional tests") {
+TEST_CASE("optional-ref", "[optional]") {
     int x = 17;
     int y = 23;
 
