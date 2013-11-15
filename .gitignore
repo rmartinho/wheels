@@ -3,5 +3,6 @@ obj/
 *~
 *.session.vim
 *.swp
+*.pyc
 .vimrc
-*scons*
+build.ninja
