@@ -73,11 +73,16 @@ ninja.rule('test',
         command = test_runner,
         description = 'TEST')
 
+ninja.rule('dist',
+        command = 'tar cjf $out $in',
+        description = 'TAR $in')
+
 # --- build edges
 
 ninja.build('build.ninja', 'bootstrap',
         implicit = sys.argv[0])
 
+hdr_files = list(get_files('include', '*.h++'))
 src_files = list(get_files('src', '*.c++'))
 obj_files = [object_file(fn) for fn in src_files]
 for fn in src_files:
@@ -96,10 +101,19 @@ for fn in test_src_files:
 
 ninja.build(test_runner, 'link',
         inputs = test_obj_files + [libwheels])
-ninja.build('check', 'test',
+ninja.build('runtests', 'test',
         implicit = test_runner)
+ninja.build('test', 'phony',
+        inputs = 'runtests')
 ninja.build('lib', 'phony',
-        inputs = libwheels);
+        inputs = libwheels)
+
+tar = 'dist/wheels.tar.bz2'
+ninja.build(tar, 'dist',
+        inputs = hdr_files + ([libwheels] if src_files else []))
+
+ninja.build('dist', 'phony',
+        inputs = tar)
 
 # --- default targets
 
