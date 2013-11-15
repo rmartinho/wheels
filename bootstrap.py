@@ -90,8 +90,9 @@ for fn in src_files:
             inputs = fn)
 
 libwheels = 'bin/libwheels.a'
-ninja.build(libwheels, 'lib',
-        inputs = obj_files)
+if src_files:
+    ninja.build(libwheels, 'lib',
+            inputs = obj_files)
 
 test_src_files = list(get_files('test', '*.c++'))
 test_obj_files = [object_file(fn) for fn in test_src_files]
