@@ -13,7 +13,7 @@
 
 #include <wheels/fun/invoke.h++>
 
-#include <catch.h++>
+#include <catch.hpp>
 
 namespace test {
     const int expected_result = 42;

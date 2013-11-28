@@ -15,7 +15,7 @@
 
 #include <boost/logic/tribool.hpp>
 
-#include <catch.h++>
+#include <catch.hpp>
 
 #define CHECK_TRIBOOL_TRUE(x) {                         \
         CHECK(::wheels::is_true((x)));                  \
