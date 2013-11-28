@@ -13,7 +13,7 @@
 
 #include <wheels/fun/result_of.h++>
 
-#include <catch.h++>
+#include <catch.hpp>
 
 #include <wheels/meta/is_computable.h++>
 

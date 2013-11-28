@@ -13,7 +13,7 @@
 
 #include <wheels/fun/is_invocable.h++>
 
-#include <catch.h++>
+#include <catch.hpp>
 
 TEST_CASE("fun/is_invocable", "is_invocable tests") {
     SECTION("no fun", "not a function thingy") {

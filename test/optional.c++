@@ -13,7 +13,7 @@
 
 #include <wheels/optional.h++>
 
-#include <catch.h++>
+#include <catch.hpp>
 
 TEST_CASE("optional", "optional tests") {
     wheels::optional<int> o1;

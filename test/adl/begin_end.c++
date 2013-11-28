@@ -14,7 +14,7 @@
 #include <wheels/adl/begin.h++>
 #include <wheels/adl/end.h++>
 
-#include <catch.h++>
+#include <catch.hpp>
 
 namespace test {
     struct foo {};

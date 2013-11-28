@@ -13,7 +13,7 @@
 
 #include <wheels/adl/get.h++>
 
-#include <catch.h++>
+#include <catch.hpp>
 
 #include <array>
 

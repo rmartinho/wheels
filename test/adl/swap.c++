@@ -13,7 +13,7 @@
 
 #include <wheels/adl/swap.h++>
 
-#include <catch.h++>
+#include <catch.hpp>
 
 namespace test {
     struct foo { int x; };
