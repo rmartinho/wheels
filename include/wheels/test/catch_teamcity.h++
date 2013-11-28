@@ -17,7 +17,7 @@
 #include <catch.hpp>
 
 #include <string>
-#include <iostream>
+#include <cstdio>
 
 namespace wheels {
     struct teamcity_reporter : Catch::SharedImpl<Catch::IStreamingReporter> {
@@ -33,28 +33,28 @@ namespace wheels {
         }
 
         virtual void noMatchingTestCases( std::string const& spec ) {
-            std::cout << "##teamcity[buildProblem description='No test cases matched |'" << spec << "|''" << std::endl;
+            std::printf("##teamcity[buildProblem description='No test cases matched |'%s|''\n", spec.c_str());
         }
 
         // TODO escaping
         void teamcity_test_suite_started( std::string const& name ) {
-            std::cout << "##teamcity[testSuiteStarted name='" << name << "']" << std::endl;
+            std::printf("##teamcity[testSuiteStarted name='%s']\n", name.c_str());
         }
         void teamcity_test_started( std::string const& name ) {
-            std::cout << "##teamcity[testStarted name='" << name << "']" << std::endl;
+            std::printf("##teamcity[testStarted name='%s']\n", name.c_str());
         }
         void teamcity_test_suite_finished( std::string const& name ) {
-            std::cout << "##teamcity[testSuiteFinished name='" << name << "']" << std::endl;
+            std::printf("##teamcity[testSuiteFinished name='%s']\n", name.c_str());
         }
         void teamcity_test_finished( std::string const& name ) {
-            std::cout << "##teamcity[testFinished name='" << name << "']" << std::endl;
+            std::printf("##teamcity[testFinished name='%s']\n", name.c_str());
         }
         void teamcity_test_failed( std::string const& name, std::string const& message, std::vector<Catch::MessageInfo> const& messages) {
-            std::cout << "##teamcity[testFailed name='" << name << "' message='" << message << "' detail='";
+            std::stringstream ss;
             for(auto&& info : messages) {
-                std::cout << info.message << "|n";
+                ss << info.message << "|n";
             }
-            std::cout << "']" << std::endl;
+            std::printf("##teamcity[testFailed name='%s' message='%s' details='%s']\n", name.c_str(), message.c_str(), ss.str().c_str());
         }
 
         virtual void testRunStarting( Catch::TestRunInfo const& testInfo ) {
