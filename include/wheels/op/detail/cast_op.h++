@@ -22,7 +22,7 @@
         template <typename U,                                                   \
                   typename Result = decltype(CAST##_cast<T>(std::declval<U>()), \
                   bool NoExcept = noexcept(CAST##_cast<T>(std::declval<U>()))>  \
-        Result operator()(U&& u) const noexcept(NoExcept)                       \
+        Result operator()(U&& u) const noexcept(NoExcept) {                     \
             return CAST##_cast<T>(std::forward<U>(u));                          \
         }                                                                       \
     }
