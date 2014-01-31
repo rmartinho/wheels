@@ -16,7 +16,7 @@
 
 namespace wheels {
     namespace expand_detail {
-        using ignore = char[];
+        using ignore = int[];
     }
 }
 
