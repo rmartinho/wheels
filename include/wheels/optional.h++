@@ -24,12 +24,12 @@
 
 namespace wheels {
     template <typename T>
-    class optional;
+    struct optional;
 
     struct none_t {
         template <typename T>
         constexpr operator optional<T>() const noexcept { return {}; }
-    } constexpr none;
+    } constexpr none{};
 
     namespace detail {
         template <typename T>
