@@ -1,6 +1,6 @@
 // Wheels - various C++ utilities
 //
-// Written in 2013 by Martinho Fernandes <martinho.fernandes@gmail.com>
+// Written in 2013 by Martinho Fernandes <rmf@rmf.io>
 //
 // To the extent possible under law, the author(s) have dedicated all copyright and related
 // and neighboring rights to this software to the public domain worldwide. This software is
@@ -16,6 +16,7 @@
 
 #include <wheels/meta/bool.h++>
 #include <wheels/meta/enable_if.h++>
+#include <wheels/meta/underlying_type.h++>
 
 #include <type_traits> // is_enum
 
@@ -45,7 +46,7 @@
 namespace wheels {
     namespace enums {
         template <typename T>
-        struct is_flags : meta::False {};
+        struct is_flags : meta::Bool<flag_ops_enabled(T{})> {};
 
         template <typename Enum,
                   meta::EnableIf<std::is_enum<Enum>>...,
