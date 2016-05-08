@@ -18,10 +18,12 @@
 #include <array>
 
 namespace test {
-    struct foo {};
+    namespace {
+        struct foo {};
 
-    template <int N>
-    int get(foo const&) { return N; }
+        template <int N>
+        int get(foo const&) { return N; }
+    } // namespace
 } // namespace test
 
 TEST_CASE("adl/get", "adl::get tests") {

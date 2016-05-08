@@ -21,7 +21,7 @@
         template <typename T, typename U,                                               \
                   typename Result = decltype(std::declval<T>() OP std::declval<U>()),   \
                   bool NoExcept = noexcept(std::declval<T>() OP std::declval<U>())>     \
-        Result operator()(T&& t, U&& u) const noexcept(NoExcept)                        \
+        Result operator()(T&& t, U&& u) const noexcept(NoExcept) {                      \
             return std::forward<T>(t) OP std::forward<U>(u);                            \
         }                                                                               \
     }
