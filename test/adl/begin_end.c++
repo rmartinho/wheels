@@ -17,13 +17,15 @@
 #include <catch.hpp>
 
 namespace test {
-    struct foo {};
+    namespace {
+        struct foo {};
 
-    auto source = "foo";
-    auto expected_begin = &source[0];
-    auto expected_end = &source[3];
-    char const* begin(foo const&) { return expected_begin; }
-    char const* end(foo const&) { return expected_end; }
+        auto source = "foo";
+        auto expected_begin = &source[0];
+        auto expected_end = &source[3];
+        char const* begin(foo const&) { return expected_begin; }
+        char const* end(foo const&) { return expected_end; }
+    } // namespace
 } // namespace test
 
 namespace test2 {

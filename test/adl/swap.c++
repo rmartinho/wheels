@@ -16,9 +16,11 @@
 #include <catch.hpp>
 
 namespace test {
-    struct foo { int x; };
+    namespace {
+        struct foo { int x; };
 
-    void swap(foo& a, foo& b) { a.x += 1; b.x += 2; }
+        void swap(foo& a, foo& b) { a.x += 1; b.x += 2; }
+    } // namespace
 } // namespace test
 
 TEST_CASE("adl/swap", "adl::swap tests") {
