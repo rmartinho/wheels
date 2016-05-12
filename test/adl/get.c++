@@ -34,7 +34,7 @@ TEST_CASE("adl/get", "adl::get tests") {
         CHECK(wheels::adl::get<42>(test::foo{}) == 42);
     }
     SECTION("default", "") {
-        std::array<int, 3> a = { 17, 23, 42 };
+        std::array<int, 3> a = { { 17, 23, 42 } };
         CHECK(wheels::adl::get<0>(a) == 17);
         CHECK(wheels::adl::get<1>(a) == 23);
         CHECK(wheels::adl::get<2>(a) == 42);
